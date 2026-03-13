@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather MCP Widget</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --text: #1a2c42;
+      --muted: #5a6e84;
+      --accent: #1877f2;
+      --border: #d6e0eb;
+    }
+    body {
+      margin: 0;
+      font-family: Segoe UI, Tahoma, sans-serif;
+      background: linear-gradient(180deg, #eff5ff 0%, #f9fbff 100%);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(24, 119, 242, 0.08);
+    }
+    h1 {
+      font-size: 20px;
+      margin: 0 0 10px;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .code {
+      margin-top: 14px;
+      background: #f7f9fc;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Weather MCP App</h1>
+      <p>This widget is served from the Azure Functions MCP resource endpoint.</p>
+      <div id="payload" class="code">Waiting for tool result payload...</div>
+    </div>
+  </div>
+  <script>
+    window.addEventListener("message", (event) => {
+      try {
+        const payload = typeof event.data === "string"
+          ? event.data
+          : JSON.stringify(event.data, null, 2);
+        document.getElementById("payload").textContent = payload;
+      } catch {
+        document.getElementById("payload").textContent = "Received update.";
+      }
+    });
+  </script>
+</body>
+</html>
